@@ -20,6 +20,7 @@ program
   .description('Add new expenses')
   .action((description, amount) => {
     arr.count = arr.count + 1;
+    arr.total = arr.total + Number(amount);
 
     arr.expenses.push({ ID: arr.count, Date: new Date().toLocaleDateString(), Description: description, Amount: `$${ amount }` });
     fs.writeFileSync(filePath, JSON.stringify(arr, null, 2), 'utf-8');
@@ -37,5 +38,12 @@ program
   })
 program
   .command('summary')
+  .description('Show the total expenses')
+  .action(() => {
+    console.log(chalk.green(`Total expenses: $${ arr.total }`));
+  })
+program
+  .command('delete')
+  .description('Delete the expense by ID')
 
 program.parse()

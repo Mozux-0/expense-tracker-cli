@@ -1,5 +1,6 @@
 {
-  "count": 3,
+  "count": 2,
+  "total": 30,
   "expenses": [
     {
       "ID": 1,
@@ -10,14 +11,8 @@
     {
       "ID": 2,
       "Date": "12/3/2025",
-      "Description": "Breakfast",
-      "Amount": "$30"
-    },
-    {
-      "ID": 3,
-      "Date": "12/3/2025",
-      "Description": "Genshin",
-      "Amount": "$50"
+      "Description": "Dinner",
+      "Amount": "$10"
     }
   ]
 }
