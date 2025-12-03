@@ -9,7 +9,6 @@ A simple, command-line expense tracker built with Node.js that helps you manage 
 ## Features
 
 - **Add Expenses**: Quickly log expenses with description and amount
-- **Update Expenses**: Modify existing expense entries
 - **Delete Expenses**: Remove expenses by ID
 - **View All Expenses**: List all expenses in a clean, readable format
 - **Monthly Summary**: Get total expenses for any month
