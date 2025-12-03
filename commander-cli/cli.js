@@ -96,14 +96,17 @@ program
     } else console.log(chalk.green(`Total expenses: $${ arr.total }`));
   })
 program
-  .command('delete <ID>')
+  .command('delete')
   .description('Delete the expense by ID')
-  .action((ID) => {
-    if (ID > arr.count || ID <= 0) {
+  .option('--id <id>', 'specify the id')
+  .action((option) => {
+    var chosenId = option.id;
+
+    if (chosenId > arr.count || chosenId <= 0) {
       console.log(`Please input a valid ID below ${ arr.count }`);
     } else {
-      arr.total = arr.total - Number(arr.expenses[ ID - 1 ].Amount); 
-      arr.expenses.splice(ID - 1, 1);
+      arr.total = arr.total - Number(arr.expenses[ chosenId - 1 ].Amount); 
+      arr.expenses.splice(chosenId - 1, 1);
 
       arr.expenses.forEach((item, i) => {
         item.ID = i + 1;
