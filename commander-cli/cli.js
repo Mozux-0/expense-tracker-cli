@@ -39,8 +39,59 @@ program
 program
   .command('summary')
   .description('Show the total expenses')
-  .action(() => {
-    console.log(chalk.green(`Total expenses: $${ arr.total }`));
+  .option('--month <month>', 'specify the month')
+  .action((month) => {
+    if (Object.keys(month).length != 0) {
+      let total_expenses = 0;
+      let num = Number(month.month);
+
+      arr.expenses.forEach((item) => {
+        if (Number(item.Date.split("/")[0]) === num) {
+          total_expenses += Number(item.Amount);
+        };
+      })
+
+      let mon = "January";
+      switch (num) {
+        case 1:
+          mon = "January";
+          break;
+        case 2:
+          mon = "February";
+          break;
+        case 3:
+          mon = "March";
+          break;
+        case 4:
+          mon = "April";
+          break;
+        case 5:
+          mon = "May";
+          break;
+        case 6:
+          mon = "June";
+          break;
+        case 7:
+          mon = "July";
+          break;
+        case 8:
+          mon = "August";
+          break;
+        case 9:
+          mon = "September"
+          break;
+        case 10:
+          mon = "October"
+          break;
+        case 11:
+          mon = "November"
+          break;
+        case 12:
+          mon = "December"
+          break;
+      };
+      console.log(`Total expenses for ${ mon }: $${ total_expenses }`);
+    } else console.log(chalk.green(`Total expenses: $${ arr.total }`));
   })
 program
   .command('delete <ID>')
@@ -62,5 +113,15 @@ program
       console.log(chalk.green(`Expense deleted successfully`));
     };
   })
+// program
+//   .command('summary <MONTH>')
+//   .description('Get the summary for a specific month')
+//   .action((MONTH) => {
+//     var total = 0;
 
+//     arr.expenses.forEach((item) => {
+//       var month = Number(item.Date.split("-")[1]);
+//       console.log(month);
+//     })
+//   })
 program.parse()

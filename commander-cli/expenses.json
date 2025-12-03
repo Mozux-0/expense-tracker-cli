@@ -1,5 +1,30 @@
 {
-  "count": 0,
-  "total": 0,
-  "expenses": []
+  "count": 4,
+  "total": 50,
+  "expenses": [
+    {
+      "ID": 1,
+      "Date": "8/3/2025",
+      "DESCRIPTION": "Lunch",
+      "Amount": "20"
+    },
+    {
+      "ID": 2,
+      "Date": "12/3/2025",
+      "DESCRIPTION": "Dinner",
+      "Amount": "10"
+    },
+    {
+      "ID": 3,
+      "Date": "2/3/2025",
+      "DESCRIPTION": "Breakfast",
+      "Amount": "20"
+    },
+    {
+      "ID": 4,
+      "Date": "4/3/2025",
+      "DESCRIPTION": "Onsen",
+      "Amount": "30"
+    }
+  ]
 }
