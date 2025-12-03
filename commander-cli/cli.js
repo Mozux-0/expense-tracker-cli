@@ -226,24 +226,6 @@ class ExpenseCLI {
     }
   }
 
-  async handleUpdate(options) {
-    try {
-      const updates = {};
-      if (options.description) updates.description = options.description;
-      if (options.amount) updates.amount = options.amount;
-      
-      if (Object.keys(updates).length === 0) {
-        throw new Error('No updates provided. Use --description or --amount');
-      }
-
-      const expense = await this.service.updateExpense(options.id, updates);
-      console.log(chalk.green(`✓ Expense updated successfully (ID: ${expense.id})`));
-    } catch (error) {
-      console.error(chalk.red(`✗ Error: ${error.message}`));
-      process.exit(1);
-    }
-  }
-
   async handleList(options) {
     try {
       const expenses = await this.service.getExpenses({ month: options.month });
