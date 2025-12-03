@@ -16,13 +16,15 @@ program
   .description('A simple expense tracker CLI application')
   .version('1.0.0')
 program
-  .command('add <DESCRIPTION> <AMOUNT>')
+  .command('add')
   .description('Add new expenses')
-  .action((DESCRIPTION, AMOUNT) => {
+  .option('--description <description>', 'specify the description')
+  .option('--amount <amounts>', 'specify the expense amount')
+  .action((options) => {
     arr.count = arr.count + 1;
-    arr.total = arr.total + Number(AMOUNT);
+    arr.total = arr.total + Number(options.amount);
 
-    arr.expenses.push({ ID: arr.count, Date: new Date().toLocaleDateString(), DESCRIPTION: DESCRIPTION, Amount: AMOUNT });
+    arr.expenses.push({ ID: arr.count, Date: new Date().toLocaleDateString(), Description: options.description, Amount: options.amount });
     fs.writeFileSync(filePath, JSON.stringify(arr, null, 2), 'utf-8');
 
     console.log(chalk.green(`Expense added successfully (ID: ${ arr.count })`));
@@ -113,15 +115,4 @@ program
       console.log(chalk.green(`Expense deleted successfully`));
     };
   })
-// program
-//   .command('summary <MONTH>')
-//   .description('Get the summary for a specific month')
-//   .action((MONTH) => {
-//     var total = 0;
-
-//     arr.expenses.forEach((item) => {
-//       var month = Number(item.Date.split("-")[1]);
-//       console.log(month);
-//     })
-//   })
 program.parse()
