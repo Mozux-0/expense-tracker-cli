@@ -16,13 +16,13 @@ program
   .description('A simple expense tracker CLI application')
   .version('1.0.0')
 program
-  .command('add <description> <amount>')
+  .command('add <DESCRIPTION> <AMOUNT>')
   .description('Add new expenses')
-  .action((description, amount) => {
+  .action((DESCRIPTION, AMOUNT) => {
     arr.count = arr.count + 1;
-    arr.total = arr.total + Number(amount);
+    arr.total = arr.total + Number(AMOUNT);
 
-    arr.expenses.push({ ID: arr.count, Date: new Date().toLocaleDateString(), Description: description, Amount: `$${ amount }` });
+    arr.expenses.push({ ID: arr.count, Date: new Date().toLocaleDateString(), DESCRIPTION: DESCRIPTION, Amount: AMOUNT });
     fs.writeFileSync(filePath, JSON.stringify(arr, null, 2), 'utf-8');
 
     console.log(chalk.green(`Expense added successfully (ID: ${ arr.count })`));
@@ -43,7 +43,24 @@ program
     console.log(chalk.green(`Total expenses: $${ arr.total }`));
   })
 program
-  .command('delete')
+  .command('delete <ID>')
   .description('Delete the expense by ID')
+  .action((ID) => {
+    if (ID > arr.count || ID <= 0) {
+      console.log(`Please input a valid ID below ${ arr.count }`);
+    } else {
+      arr.total = arr.total - Number(arr.expenses[ ID - 1 ].Amount); 
+      arr.expenses.splice(ID - 1, 1);
+
+      arr.expenses.forEach((item, i) => {
+        item.ID = i + 1;
+      })
+
+      arr.count = arr.expenses.length;
+
+      fs.writeFileSync(filePath, JSON.stringify(arr, null, 2), 'utf-8');
+      console.log(chalk.green(`Expense deleted successfully`));
+    };
+  })
 
 program.parse()

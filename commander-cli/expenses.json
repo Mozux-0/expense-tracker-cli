@@ -1,18 +1,5 @@
 {
-  "count": 2,
-  "total": 30,
-  "expenses": [
-    {
-      "ID": 1,
-      "Date": "12/3/2025",
-      "Description": "Lunch",
-      "Amount": "$20"
-    },
-    {
-      "ID": 2,
-      "Date": "12/3/2025",
-      "Description": "Dinner",
-      "Amount": "$10"
-    }
-  ]
+  "count": 0,
+  "total": 0,
+  "expenses": []
 }
