@@ -89,6 +89,22 @@ class ExpenseService {
     await this.repository.save(expense);
     return expense;
   };
+
+  async getExpenses (filter = {}) {
+    const data = await this.repository.load();
+
+    if (filter.month) {
+      const month = parseInt(filter.month);
+      if (month < 0 || month > 12) throw new Error('Month must be between 1 and 12');
+
+      return data.expenses.filter(expense => {
+        const expenseDate = new Date(expense.date);
+        return expenseDate.getMonth() + 1 === month;
+      });
+    };
+
+    return data.expenses;
+  };
 };
 
 
