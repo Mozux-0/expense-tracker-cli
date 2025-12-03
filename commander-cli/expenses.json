@@ -1,0 +1,17 @@
+{
+  "count": 2,
+  "expenses": [
+    {
+      "ID": 1,
+      "Date": "12/3/2025",
+      "Description": "Lunch",
+      "Amount": "$20"
+    },
+    {
+      "ID": 2,
+      "Date": "12/3/2025",
+      "Description": "Breakfast",
+      "Amount": "$30"
+    }
+  ]
+}
