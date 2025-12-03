@@ -1,8 +1,98 @@
 #!/usr/bin/env node
 
 import { Command } from 'commander';
-import fs from 'fs';
+import fs from 'fs/promises';
+import path from 'path';
 import chalk from 'chalk';
+
+// ========== MODULAR STRUCTURE ==========
+
+class ExpensesRepository {
+  constructor(filePath) {
+    this.filePath = filePath;
+  };
+
+  async load () {
+    try {
+      const data = await fs.readFile(this.filePath, 'utf-8');
+      return JSON.parse(data);
+    } catch (err) {
+      if (err.code === 'ENOENT') {
+        return this.initializeFile();
+      }
+      throw new Error(`Failed to load expenses: ${ err.message }`);
+    };
+  };
+
+  async initializeFile () {
+    const initialData = {
+      count: 0,
+      nextId: 1,
+      total: 0,
+      expenses: []
+    };
+    await this.save(initialData);
+    return initialData;
+  };
+
+  async save (data) {
+    try {
+      await fs.writeFile(
+        this.filePath,
+        JSON.stringify(data, null, 2),
+        'utf-8'
+      );
+    } catch (err) {
+      throw new Error(`Failed to save expenses: ${ err.message }`);
+    };
+  };
+};
+
+class ExpenseService {
+  constructor (repository) {
+    this.repository = repository;
+  };
+
+  async addExpenses (description, amount) {
+    if (!description?.trim()) throw new Error('Description is required');
+
+    if (isNaN(amount) || Number(amount) <= 0) throw new Error('Amount must be a positive number');
+
+    const data = await this.repository.load();
+    const expense = {
+      ID: data.nextId++,
+      Date: new Date().toLocaleString(),
+      Description: description,
+      Amount: parseFloat(Number(amount).toFixed(2))
+    };
+
+    data.expense.push(expense);
+    data.total = parseFloat((data.total + expense.Amount).toFixed(2));
+    data.count = data.expense.length;
+
+    await this.repository.save(data);
+    return expense;
+  };
+
+  async deleteExpense(id) {
+    const data = await this.repository.load();
+    const index = data.expenses.findIndex(e => e.id === parseInt(id));
+
+    if (index === -1) throw new Error(`Expense with ID ${ id } not found`);
+
+    const expense = data.expense[index];
+
+    data.expense.splice(index, 1);
+    data.total = parseFloat((data.total - expense.Amount).toFixed(2));
+    data.count = data.expenses.length;
+
+    await this.repository.save(expense);
+    return expense;
+  };
+};
+
+
+
 
 const program = new Command();
 
